@@ -34,7 +34,7 @@ Continue to payment, Continuar para o pagamento
 No payment method available, Nenhum método de pagamento disponível
 Ship to, Enviar para
 Shipment, Envio
-Thank you ${name}!, Obrigado(a), ${name}!
+Thank you ${name}!, Obrigado(a) ${name}!
 Contact information, Informações de contato
 Order #${orderNumber}, Pedido #${orderNumber}
 ADD TO CART, ADICIONAR AO CARRINHO
