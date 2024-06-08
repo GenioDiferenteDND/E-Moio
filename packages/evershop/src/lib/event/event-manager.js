@@ -1,4 +1,3 @@
-const { select, del } = require('@evershop/postgres-query-builder');
 const { pool } = require('@evershop/evershop/src/lib/postgres/connection');
 const {
   loadBootstrapScript
@@ -64,24 +63,21 @@ async function loadEvents(count) {
   // Only load events that have subscribers
   const eventNames = subscribers.map((subscriber) => subscriber.event);
 
-  const query = select().from('event');
+  let query = 'SELECT * FROM event';
   if (eventNames.length > 0) {
-    query.where('name', 'IN', eventNames);
+    query += ` WHERE name IN (${eventNames.map(name => `'${name}'`).join(',')})`;
   }
 
   if (events.length > 0) {
-    query.and(
-      'uuid',
-      'NOT IN',
-      events.map((event) => event.uuid)
-    );
+    const existingEventUuids = events.map((event) => `'${event.uuid}'`);
+    query += ` AND uuid NOT IN (${existingEventUuids.join(',')})`;
   }
 
-  query.orderBy('event_id', 'ASC');
-  query.limit(0, count);
+  query += ' ORDER BY event_id ASC';
+  query += ` LIMIT ${count}`;
 
-  const results = await query.execute(pool);
-  return results;
+  const { rows } = await pool.query(query);
+  return rows;
 }
 
 async function syncEvents() {
@@ -90,7 +86,8 @@ async function syncEvents() {
     .filter((event) => event.status === 'done')
     .map((event) => event.uuid);
   if (completedEvents.length > 0) {
-    await del('event').where('uuid', 'IN', completedEvents).execute(pool);
+    const query = `DELETE FROM event WHERE uuid IN (${completedEvents.map(uuid => `'${uuid}'`).join(',')})`;
+    await pool.query(query);
     // Remove the events from the events array
     events = events.filter((event) => event.status !== 'done');
   }
