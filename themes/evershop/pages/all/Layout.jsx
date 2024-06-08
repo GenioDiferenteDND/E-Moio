@@ -10,7 +10,7 @@ export default function Layout() {
   return (
     <>
       <LoadingBar />
-      <Banner message={<><strong>OFERTA ESPECIAL:</strong> Frete grátis em todos os pedidos acima de 5.000 MZN! Estamos em uma nova versão e ainda estamos adicionando produtos. Para ver nossa versão anterior, visite <a href="https://www.old.e-moio.com">www.old.e-moio.com</a>.</>} />
+      <Banner message={<><strong>OFERTA ESPECIAL:</strong> Frete grátis em todos os pedidos acima de 5.000 MZN!Desejamos a Você Boas Compras ❤️🛍️🛒</>} />
 
 
       <header className="2xl:px-[50px] border-b border-header-border">
