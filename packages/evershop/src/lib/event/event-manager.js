@@ -64,17 +64,21 @@ async function loadEvents(count) {
   // Only load events that have subscribers
   const eventNames = subscribers.map((subscriber) => subscriber.event);
 
-  let query = select().from('event');
+  const query = select().from('event');
   if (eventNames.length > 0) {
-    query = query.where('name', 'IN', eventNames);
+    query.where('name', 'IN', eventNames);
   }
 
   if (events.length > 0) {
-    const existingEventUuids = events.map((event) => event.uuid);
-    query = query.where('uuid', 'NOT IN', existingEventUuids);
+    query.and(
+      'uuid',
+      'NOT IN',
+      events.map((event) => event.uuid)
+    );
   }
 
-  query = query.orderBy('event_id', 'ASC').limit(0, count);
+  query.orderBy('event_id', 'ASC');
+  query.limit(0, count);
 
   const results = await query.execute(pool);
   return results;
