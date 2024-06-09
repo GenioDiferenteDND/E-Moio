@@ -4,8 +4,7 @@ import PropTypes from "prop-types";
 import React from "react";
 
 export default function FeaturedProducts({ collections }) {
-  // Verifique se collections existe e é um array
-  if (!Array.isArray(collections) || collections.length === 0) {
+  if (!collections || !Array.isArray(collections) || collections.length === 0) {
     return null;
   }
 
@@ -94,7 +93,6 @@ export const query = `
   }
 `;
 
-// Adaptador para transformar o retorno da query em um formato esperado
 export const dataAdapter = (data) => {
   if (data && data.collections && Array.isArray(data.collections.items)) {
     return data.collections.items;
