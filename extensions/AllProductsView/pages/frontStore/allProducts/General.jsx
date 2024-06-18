@@ -12,7 +12,7 @@ export default function AllProductsInfo() {
           <h1 className="category-name mt-25">Todos os Produtos</h1>
           <div className="category-description">
             <CKEditor content={"Tudo o que temos disponível"} />
- <CKEditor content={"E-Moio | Diferente dos Iguais"} />
+ <CKEditor content={"E-Moio | Realizando Desejos"} />
           </div>
         </div>
       </div>
